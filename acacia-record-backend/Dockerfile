@@ -17,7 +17,7 @@ RUN npm install
 COPY . .
 
 # Generate Prisma Client (CRITICAL STEP)
-RUN npx prisma generate
+RUN DIRECT_URL="postgresql://null" DATABASE_URL="postgresql://null" npx prisma generate
 
 # Build the NestJS application
 RUN npm run build
