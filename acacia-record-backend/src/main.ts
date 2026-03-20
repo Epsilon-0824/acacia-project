@@ -15,7 +15,7 @@ async function bootstrap() {
     // 🟢 Add your Railway Frontend URL here
     origin: [
       'http://localhost:3000', 
-      'https://thriving-stillness-production.up.railway.app' // 👈 Paste your real Railway URL here
+      'valiant-contentment-production-aa59.up.railway.app/api' // 👈 Paste your real Railway URL here
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
