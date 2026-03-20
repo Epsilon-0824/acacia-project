@@ -11,7 +11,15 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
   }));
-  app.enableCors();
+  app.enableCors({
+    // 🟢 Add your Railway Frontend URL here
+    origin: [
+      'http://localhost:3000', 
+      'https://thriving-stillness-production.up.railway.app' // 👈 Paste your real Railway URL here
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
