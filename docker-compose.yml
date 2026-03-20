@@ -18,6 +18,8 @@ services:
     build:
       context: ./acacia-record-web
       dockerfile: Dockerfile
+    args:
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
     container_name: acacia-web
     restart: always
     environment:

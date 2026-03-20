@@ -16,6 +16,9 @@ COPY . .
 # Set environment variables for build time
 ENV NEXT_TELEMETRY_DISABLED 1
 
+ARG NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+
 RUN npm run build
 
 # --- STAGE 3: Runner ---
