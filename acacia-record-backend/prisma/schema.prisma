@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id               Int                @id @default(autoincrement())
+  username         String             @unique
+  password         String
+  name             String?
+  updatedChecks    HardwareChecks[]
+  permission       Permission         @default(IT)
+  
+  createdAt        DateTime           @default(now())
+  @@map("users")
+}
+
+model Hardwares {
+  id           Int             @id @default(autoincrement())
+  name         String
+  serialNumber String          @unique
+  
+  createdAt    DateTime        @default(now())
+  
+  checks       HardwareChecks[]
+
+  @@map("hardwares")
+}
+
+model HardwareChecks {
+  id             Int        @id @default(autoincrement())
+  checkpointName String
+  status         Status     @default(NORMAL)
+
+  lastUpdatedBy  Int
+  user           Users      @relation(fields: [lastUpdatedBy], references: [id])
+
+  hardwareId     Int
+  hardware       Hardwares  @relation(fields: [hardwareId], references: [id], onDelete: Cascade)
+
+  updatedAt      DateTime   @updatedAt 
+  @@map("hardwareChecks")
+}
+
+enum Status {
+  NORMAL
+  WARNING
+  CRITICAL
+}
+
+enum Permission {
+  ADMIN
+  IT
+}

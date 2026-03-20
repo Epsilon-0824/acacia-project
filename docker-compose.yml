@@ -1,0 +1,35 @@
+services:
+  # --- BACKEND (NestJS) ---
+  api:
+    build:
+      context: ./acacia-record-backend
+      dockerfile: Dockerfile
+    container_name: acacia-api
+    restart: always
+    env_file:
+    - ./acacia-record-backend/.env
+    ports:
+      - "3000:3000"
+    networks:
+      - acacia-network
+
+  # --- FRONTEND (Next.js) ---
+  web:
+    build:
+      context: ./acacia-record-web
+      dockerfile: Dockerfile
+    container_name: acacia-web
+    restart: always
+    environment:
+      # Browser-side API calls go to your localhost:3000 (the mapped port)
+      NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+    ports:
+      - "5173:3000" 
+    depends_on:
+      - api
+    networks:
+      - acacia-network
+
+networks:
+  acacia-network:
+    driver: bridge
